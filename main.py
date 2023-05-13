@@ -24,5 +24,15 @@ def get_tasks():
     tasks = cursor.fetchall()
     return jsonify(tasks), 200
 
+
+@app.route('/tasks/<int:task_id>', methods=['DELETE'])
+def delete_task(task_id):
+    cursor = db.cursor()
+    query = "DELETE FROM tasks WHERE id=%s"
+    cursor.execute(query, (task_id, ))
+    db.commit()
+    return jsonify({"message": "zadanie pomyslnie usuniete"}), 200
+
+
 if __name__ == '__main__':
     app.run(debug=True)
