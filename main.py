@@ -37,12 +37,21 @@ def delete_task(task_id):
 @app.route('/tasks/<int:task_id>/completed', methods=['PUT'])
 def update_task_completed(task_id):
     completed = request.json['completed']
-    print(completed)
     cursor = db.cursor()
     query = "UPDATE tasks SET completed=%s WHERE id=%s"
     cursor.execute(query, (completed, task_id))
     db.commit()
-    return jsonify({"message": "zadanie pomyślnie zmienione"})
+    return jsonify({"message": "zadanie pomyślnie zmienione"}), 200
+
+
+@app.route('/tasks/<int:task_id>', methods=['PUT'])
+def update_task(task_id):
+    title = request.json['title']
+    cursor = db.cursor()
+    query = "UPDATE tasks SET title=%s WHERE id=%s"
+    cursor.execute(query, (title, task_id))
+    db.commit()
+    return jsonify({"message": "zadanie poprawnie zaktualizowane"}), 200
 
 
 if __name__ == '__main__':
