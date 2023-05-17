@@ -34,5 +34,16 @@ def delete_task(task_id):
     return jsonify({"message": "zadanie pomyslnie usuniete"}), 200
 
 
+@app.route('/tasks/<int:task_id>/completed', methods=['PUT'])
+def update_task_completed(task_id):
+    completed = request.json['completed']
+    print(completed)
+    cursor = db.cursor()
+    query = "UPDATE tasks SET completed=%s WHERE id=%s"
+    cursor.execute(query, (completed, task_id))
+    db.commit()
+    return jsonify({"message": "zadanie pomyślnie zmienione"})
+
+
 if __name__ == '__main__':
     app.run(debug=True)
